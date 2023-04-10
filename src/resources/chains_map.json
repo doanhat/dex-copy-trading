@@ -1,0 +1,74 @@
+{
+  "arbitrum": {
+    "key": "arb",
+    "chainType": "EVM",
+    "name": "Arbitrum",
+    "coin": "ETH",
+    "id": 42161,
+    "rpc": "https://arb1.arbitrum.io/rpc",
+    "blockExplorerAPI": "https://api.arbiscan.io"
+  },
+  "polygon": {
+    "key": "pol",
+    "chainType": "EVM",
+    "name": "Polygon",
+    "coin": "MATIC",
+    "id": 137,
+    "rpc": "https://polygon-rpc.com/",
+    "blockExplorerAPI": "https://api.polygonscan.com"
+  },
+  "binance-smart-chain": {
+    "key": "bsc",
+    "chainType": "EVM",
+    "name": "BSC",
+    "coin": "BNB",
+    "id": 56,
+    "rpc": "https://bsc-dataseed.binance.org/",
+    "blockExplorerAPI": "https://api.bscscan.com"
+  },
+  "avalanche": {
+    "key": "ava",
+    "chainType": "EVM",
+    "name": "Avalanche",
+    "coin": "AVAX",
+    "id": 43114,
+    "rpc": "https://api.avax.network/ext/bc/C/rpc",
+    "blockExplorerAPI": "https://api.snowtrace.io"
+  },
+  "optimism": {
+    "key": "opt",
+    "chainType": "EVM",
+    "name": "Optimism",
+    "coin": "ETH",
+    "id": 10,
+    "rpc": "https://mainnet.optimism.io/",
+    "blockExplorerAPI": "https://api-optimistic.etherscan.io"
+  },
+  "ethereum": {
+    "key": "eth",
+    "chainType": "EVM",
+    "name": "Ethereum",
+    "coin": "ETH",
+    "id": 1,
+    "rpc": "https://eth.llamarpc.com",
+    "blockExplorerAPI": "https://api.etherscan.io"
+  },
+  "aurora": {
+    "key": "aur",
+    "chainType": "EVM",
+    "name": "Aurora",
+    "coin": "ETH",
+    "id": 1313161554,
+    "rpc": "https://mainnet.aurora.dev",
+    "blockExplorerAPI": "https://explorer.mainnet.aurora.dev/api"
+  },
+  "xdai": {
+    "key": "dai",
+    "chainType": "EVM",
+    "name": "Gnosis",
+    "coin": "DAI",
+    "id": 100,
+    "rpc": "https://rpc.gnosischain.com/",
+    "blockExplorerAPI": "https://api.gnosisscan.io"
+  }
+}

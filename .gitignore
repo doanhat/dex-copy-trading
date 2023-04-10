@@ -1,0 +1,4 @@
+*.env.dev
+.idea/
+addresses_list.json
+last_transactions.json

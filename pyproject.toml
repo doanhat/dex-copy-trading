@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "zerion-copy-trade"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "zerion_copy_trade"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+python-dotenv = "^1.0.0"
+requests = "^2.28.2"
+discordwebhook = "^1.0.3"
+web3 = "^6.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
