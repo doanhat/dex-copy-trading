@@ -2,3 +2,7 @@
 .idea/
 addresses_list.json
 last_transactions.json
+.venv
+*.pyc
+*.egg-info
+__pycache__
