@@ -5,6 +5,7 @@ from typing import List, Dict
 from web3 import Web3, HTTPProvider
 from web3.middleware import geth_poa_middleware
 
+from src.client.explorer.polygon import get_contract_abi
 from src.client.lifi import get_quote
 from src.client.zerion import get_wallet_transactions
 from src.conf.config import config
@@ -27,14 +28,32 @@ def place_order(token_map, chain):
             "fromToken": token_map['out']['symbol'],
             "toToken": token_map['in']['symbol'],
             "fromAddress": wallet.address,
-            "fromAmount": 1000000,
+            "fromAmount": 480000,
             "order": "RECOMMENDED"
         }
     )
 
     # Approve
-    contract_address = quote['transactionRequest']['to']
-    contract_abi = web3.eth.contract(contract_address).abi
+    # contract_address =
+    # contract_abi = get_contract_abi(contract_address=contract_address,
+    #                                 api_key=config[f"{chains_map[chain]['key'].upper()}_API_KEY"])['result']
+    # contract = web3.eth.contract(address=contract_address, abi=contract_abi)
+    # spender_address = wallet.address
+    # amount_to_approve = web3.to_wei(1, 'ether')
+    # # Create a transaction object
+    # tx = contract.functions.approve(spender_address, amount_to_approve).buildTransaction({
+    #     'from': spender_address,
+    #     'nonce': web3.eth.get_transaction_count(wallet.address),
+    #     'gas': 200000,
+    #     'gasPrice': web3.to_wei('50', 'gwei')
+    # })
+    #
+    # # Sign the transaction with the private key of the account that owns the tokens
+    # signed_tx = web3.eth.account.sign_transaction(tx, config['PRIVATE_KEY'])
+    #
+    # # Send the transaction to the network
+    # tx_hash = web3.to_hex(web3.eth.send_raw_transaction(signed_trx['rawTransaction']))
+
     # Send transaction
     transaction = quote['transactionRequest']
     transaction['gas'] = web3.to_int(hexstr=quote['transactionRequest']['gasLimit'])
