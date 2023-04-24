@@ -6,3 +6,4 @@ last_transactions.json
 *.pyc
 *.egg-info
 __pycache__
+src/__pycache__
