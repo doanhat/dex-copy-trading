@@ -5,9 +5,10 @@ from eth_account.signers.local import LocalAccount
 from web3 import Web3, HTTPProvider
 from web3.middleware import geth_poa_middleware
 
+from src.client.debank import get_user_token_balance
 from src.client.lifi import get_quote
 from src.client.zerion import get_wallet_transactions, get_token_address
-from src.conf.config import config, ERC20_ABI, ETH_ADDRESS
+from src.conf.config import config, ERC20_ABI, ETH_ADDRESS, TOKEN_ABI
 
 
 class Strategy:
@@ -16,8 +17,9 @@ class Strategy:
                             .read_text(encoding="UTF-8"))
 
     def __init__(self):
-        self.AMOUNT = 10000000
+        self.AMOUNT = 1000000000000
         self.GAS_LIMIT = 5000000
+        self.RATIO = 1
 
     def execute(self, mode, **kwargs):
         if mode == self.SIMPLE:
@@ -44,7 +46,7 @@ class Strategy:
                     if onchain_last_transaction[0]['attributes']['hash'] != saved_last_transaction:
                         chain = onchain_last_transaction[0]['relationships']['chain']['data']['id']
                         token_map = {
-                            token['direction']: token['fungible_info'] for token in
+                            token['direction']: {**token['fungible_info'], **token['quantity']} for token in
                             onchain_last_transaction[0]['attributes']['transfers']
                         }
                         self.make_transaction(token_map, chain)
@@ -57,7 +59,7 @@ class Strategy:
 
             copy_transactions()
 
-    def check_and_set_allowance(self, web3, wallet: LocalAccount, token_address, approval_address, amount, gas):
+    def check_and_set_allowance(self, web3, wallet: LocalAccount, token_address, approval_address, amount, gas, chain):
         # Transactions with the native token don't need approval
         if token_address != ETH_ADDRESS:  # ETH
 
@@ -67,6 +69,7 @@ class Strategy:
 
             if allowance < amount:
                 txn = {
+                    "chainId": self.CHAINS_MAP[chain]['id'],
                     "from": web3.to_checksum_address(wallet.address),
                     "to": web3.to_checksum_address(token_address),
                     "gas": int(gas),
@@ -93,10 +96,20 @@ class Strategy:
                 "fromToken": get_token_address(token_map['out'], chain),
                 "toToken": get_token_address(token_map['in'], chain),
                 "fromAddress": wallet.address,
-                "fromAmount": self.AMOUNT,
+                "fromAmount": int(token_map['out']['int']) // self.RATIO,
                 "order": "RECOMMENDED"
             }
         )
+
+        # Check token balance in wallet
+        # token_balance = get_user_token_balance(
+        #     params={
+        #         "chain_id": self.CHAINS_MAP[chain]['debankId'],
+        #         "id": wallet.address,
+        #         "token_id": get_token_address(token_map['out'], chain)
+        #     }
+        # )
+
         if web3.to_int(hexstr=quote['transactionRequest']['gasLimit']) <= self.GAS_LIMIT and \
                 int(quote["estimate"]["gasCosts"][0]["estimate"]) <= self.GAS_LIMIT:
             self.check_and_set_allowance(
@@ -105,7 +118,8 @@ class Strategy:
                 quote["action"]["fromToken"]["address"],
                 quote["estimate"]["approvalAddress"],
                 self.AMOUNT,
-                quote["estimate"]["gasCosts"][0]["estimate"]
+                quote["estimate"]["gasCosts"][0]["estimate"],
+                chain
             )
 
             # Send transaction
