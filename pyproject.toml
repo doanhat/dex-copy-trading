@@ -2,8 +2,9 @@
 name = "dex-copy-trading"
 version = "0.1.0"
 description = ""
-authors = ["Nhat Minh DOAN <nhatminhdoan2702@gmail.com>"]
+authors = ["minhdoan"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.9"
