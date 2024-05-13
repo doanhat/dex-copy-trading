@@ -11,3 +11,4 @@ src/client/__pycache__
 src/conf/__pycache__
 src/model/__pycache__
 .DS_Store
+.vscode
